@@ -2,6 +2,7 @@ import express from "express";
 import { check } from "express-validator";
 import { registerUser } from "../controllers/userController.js";
 import { loginUser } from "../controllers/userController.js";
+import { logoutUser } from "../controllers/userController.js";
 
 const router = express.Router();
 
@@ -30,5 +31,8 @@ router.post(
     ],
     loginUser
 );
+
+// Logout Route
+router.post("/logout", logoutUser);
 
 export default router;

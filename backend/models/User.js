@@ -24,6 +24,12 @@ const userSchema = new mongoose.Schema(
             type: String,
             default: "",
         },
+        books: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Book",
+            },
+        ],
     },
     { timestamps: true }
 );
