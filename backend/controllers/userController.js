@@ -60,8 +60,6 @@ export const loginUser = async (req, res) => {
                 .json({ message: "Invalid email or password" });
         }
 
-        console.log("JWT Secret:", process.env.JWT_SECRET);
-
         // Generate JWT Token
         const token = jwt.sign(
             { id: user._id, email: user.email },
@@ -69,7 +67,15 @@ export const loginUser = async (req, res) => {
             { expiresIn: "1h" }
         );
 
-        res.json({ message: "Login successful", token });
+        // Set HTTP-only cookie
+        res.cookie("auth_token", token, {
+            httpOnly: true, // Prevents JavaScript access (XSS protection)
+            secure: process.env.NODE_ENV === "production", // HTTPS only in production
+            sameSite: "Strict", // Prevent CSRF attacks
+            maxAge: 3600000, // 1 hour
+        });
+
+        res.json({ message: "Login successful" });
     } catch (error) {
         res.status(500).json({ message: "Server error", error: error.message });
     }
