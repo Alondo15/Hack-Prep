@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.js";
+import bookRoutes from "./routes/book.js";
 
 dotenv.config();
 // Connect to MongoDB
@@ -20,6 +21,8 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use("/auth", authRoutes);
+
+app.use("/books", bookRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () =>
